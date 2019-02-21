@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
 
 public class Calculator extends JFrame
 {
@@ -22,11 +23,8 @@ public class Calculator extends JFrame
     private JPanel mainForm;
     private JButton numberButton1;
     private JButton equButton;
-    private JButton tickButton;
-    private JButton reverdDigit;
-    private JTextField historyText;
-    private boolean plus, minus, compose, divide, unair;
-    private double equ, SolveEqu;
+    private JButton leftBracketButton;
+    private JButton rightBracketButton;
 
     public Calculator()
     {
@@ -34,78 +32,66 @@ public class Calculator extends JFrame
         setSize(400, 500);
         add(mainForm);
         outputText.setEditable(false);
-        historyText.setEditable(false);
-        equ = 0;
 
         class ListenToOne implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 outputText.setText(outputText.getText() + "1");
-                historyText.setText(historyText.getText() + "1");
             }
         }
 
         class ListenToTwo implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 outputText.setText(outputText.getText() + "2");
-                historyText.setText(historyText.getText() + "2");
             }
         }
 
         class ListenToThree implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 outputText.setText(outputText.getText() + "3");
-                historyText.setText(historyText.getText() + "3");
             }
         }
 
         class ListenToFour implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 outputText.setText(outputText.getText() + "4");
-                historyText.setText(historyText.getText() + "4");
             }
         }
 
         class ListenToFive implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 outputText.setText(outputText.getText() + "5");
-                historyText.setText(historyText.getText() + "5");
             }
         }
 
         class ListenToSix implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 outputText.setText(outputText.getText() + "6");
-                historyText.setText(historyText.getText() + "6");
             }
         }
 
         class ListenToSeven implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 outputText.setText(outputText.getText() + "7");
-                historyText.setText(historyText.getText() + "7");
             }
         }
 
         class ListenToEight implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 outputText.setText(outputText.getText() + "8");
-                historyText.setText(historyText.getText() + "8");
             }
         }
 
         class ListenToNine implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 outputText.setText(outputText.getText() + "9");
-                historyText.setText(historyText.getText() + "9");
             }
         }
 
-        class ListenToTick implements ActionListener {
-            public void actionPerformed(ActionEvent e) {
-
-                outputText.setText(outputText.getText() + ".");
-            }
-        }
+//        class ListenToTick implements ActionListener {
+//            public void actionPerformed(ActionEvent e) {
+//                outputText.setText(outputText.getText() + ".");
+//            }
+//        }
 
         class ListenToZero implements ActionListener {
             public void actionPerformed(ActionEvent e) {
@@ -113,88 +99,64 @@ public class Calculator extends JFrame
             }
         }
 
-        class ListenToUnairOperation implements ActionListener {
+        class ListenToLeftBracket implements ActionListener {
             public void actionPerformed(ActionEvent e) {
-                equ = -Double.parseDouble(outputText.getText());
-                outputText.setText(""+ equ);
-                unair = true;
-
+                outputText.setText(outputText.getText() + "(");
             }
         }
+
+        class ListenToRightBracket implements ActionListener {
+            public void actionPerformed(ActionEvent e) {
+                outputText.setText(outputText.getText() + ")");
+            }
+        }
+
+//        class ListenToUnairOperation implements ActionListener {
+//            public void actionPerformed(ActionEvent e) {
+//                equ = -Double.parseDouble(outputText.getText());
+//                outputText.setText(""+ equ);
+//                unair = true;
+//
+//            }
+//        }
 
         class ListenToClear implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 outputText.setText("");
-                historyText.setText("");
-                plus = false;
-                minus = false;
-                compose = false;
-                divide = false;
-
-                equ = 0;
-                SolveEqu = 0;
             }
         }
 
         class ListenToPlus implements ActionListener {
             public void actionPerformed(ActionEvent e) {
-                historyText.setText(historyText.getText() + "+");
-                equ = Double.parseDouble(outputText.getText());
-                outputText.setText("");
-                plus = true;
+                outputText.setText(outputText.getText() + "+");
             }
         }
 
         class ListenToMinus implements ActionListener {
             public void actionPerformed(ActionEvent e) {
-                historyText.setText(historyText.getText() + "-");
-                equ = Double.parseDouble(outputText.getText());
-                outputText.setText("");
-                minus = true;
+                outputText.setText(outputText.getText() + "-");
             }
         }
 
         class ListenToMulti implements ActionListener {
             public void actionPerformed(ActionEvent e) {
-                historyText.setText(historyText.getText() + "x");
-                equ = Double.parseDouble(outputText.getText());
-                outputText.setText("");
-                compose = true;
+                outputText.setText(outputText.getText() + "*");
             }
         }
 
         class ListenToDivide implements ActionListener {
             public void actionPerformed(ActionEvent e) {
-                historyText.setText(historyText.getText() + ":");
-                equ = Double.parseDouble(outputText.getText());
-                outputText.setText("");
-                divide = true;
+                outputText.setText(outputText.getText() + "/");
             }
         }
 
         class ListenToSolve implements ActionListener {
             public void actionPerformed(ActionEvent e) {
-                SolveEqu = Double.parseDouble(outputText.getText());
-
-                if (plus == true)
-                    SolveEqu = SolveEqu + equ;
-                else if (minus == true)
-                    SolveEqu = equ - SolveEqu;
-                else if (compose == true)
-                    SolveEqu = SolveEqu * equ;
-                else if (divide == true)
-                    SolveEqu = equ / SolveEqu;
-                outputText.setText(Double.toString(SolveEqu));
-                historyText.setText(historyText.getText() + "=" + SolveEqu);
-
-
-                plus = false;
-                minus = false;
-                compose = false;
-                divide = false;
+                outputText.setText(Integer.toString(eval(outputText.getText())));
+//                outputText.setText(Double.toString(eval(outputText.getText())));
             }
         }
-
+        //Привязка лисанеров к кнопкам с цифрами/точкой/скобками/операциями
         numberButton0.addActionListener(new ListenToZero());
         numberButton1.addActionListener(new ListenToOne());
         numberButton2.addActionListener(new ListenToTwo());
@@ -205,7 +167,8 @@ public class Calculator extends JFrame
         numberButton7.addActionListener(new ListenToSeven());
         numberButton8.addActionListener(new ListenToEight());
         numberButton9.addActionListener(new ListenToNine());
-        tickButton.addActionListener(new ListenToTick());
+        leftBracketButton.addActionListener(new ListenToLeftBracket());
+        rightBracketButton.addActionListener(new ListenToRightBracket());
 
         clearButton.addActionListener(new ListenToClear());
         plusButton.addActionListener(new ListenToPlus());
@@ -213,6 +176,72 @@ public class Calculator extends JFrame
         composeButton.addActionListener(new ListenToMulti());
         divideButton.addActionListener(new ListenToDivide());
         equButton.addActionListener(new ListenToSolve());
-//        reverdDigit.addActionListener(new ListenToUnairOperation());
+
+    }
+
+    static boolean isDelim(char c) { // функция возвращает тру если пробел
+        return c == ' ';
+    }
+    static boolean isOperator(char c) { // функция возвращяет тру если один из символов ниже
+        return c == '+' || c == '-' || c == '*' || c == '/';
+    }
+    static int priority(char op) { // функция возвращает приоритет операции
+        switch (op) {
+            case '+':
+            case '-':
+                return 1;
+            case '*':
+            case '/':
+                return 2;
+            default:
+                return -1;
+        }
+    }
+    static void processOperator(LinkedList<Integer> st, char op) {
+        int r = st.removeLast(); // выдёргивает из упорядоченного листа последний элемент
+        int l = st.removeLast(); // также
+        switch (op) { // выполняет действие между l и r в зависимости от оператора в кейсе и результат валим в st
+            case '+':
+                st.add(l + r);
+                break;
+            case '-':
+                st.add(l - r);
+                break;
+            case '*':
+                st.add(l * r);
+                break;
+            case '/':
+                st.add(l / r);
+                break;
+        }
+    }
+    public static int eval(String s) {
+        LinkedList<Integer> st = new LinkedList<Integer>(); // лист с цифрами
+        LinkedList<Character> op = new LinkedList<Character>(); // лист с операторами в порядке поступления
+        for (int i = 0; i < s.length(); i++) { // парсится строка с текствью
+            char c = s.charAt(i);
+            if (isDelim(c))
+                continue;
+            if (c == '(')
+                op.add('(');
+            else if (c == ')') {
+                while (op.getLast() != '(')
+                    processOperator(st,op.removeLast());
+                op.removeLast();
+            } else if (isOperator(c)) {
+                while (!op.isEmpty() && priority(op.getLast()) >= priority(c))
+                    processOperator(st, op.removeLast());
+                op.add(c);
+            } else {
+                String operand = "";
+                while (i < s.length() && Character.isDigit(s.charAt(i)))
+                    operand += s.charAt(i++);
+                --i;
+                st.add(Integer.parseInt(operand));
+            }
+        }
+        while (!op.isEmpty())
+            processOperator(st, op.removeLast());
+        return st.get(0);  // результат
     }
 }
