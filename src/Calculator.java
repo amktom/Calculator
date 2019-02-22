@@ -87,12 +87,6 @@ public class Calculator extends JFrame
             }
         }
 
-//        class ListenToTick implements ActionListener {
-//            public void actionPerformed(ActionEvent e) {
-//                outputText.setText(outputText.getText() + ".");
-//            }
-//        }
-
         class ListenToZero implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 outputText.setText(outputText.getText() + "0");
@@ -200,7 +194,7 @@ public class Calculator extends JFrame
     static void processOperator(LinkedList<Integer> st, char op) {
         int r = st.removeLast(); // выдёргивает из упорядоченного листа последний элемент
         int l = st.removeLast(); // также
-        switch (op) { // выполняет действие между l и r в зависимости от оператора в кейсе и результат валим в st
+        switch (op) { // выполняет действие между l и r в зависимости от оператора в кейсе и результат кладет в st
             case '+':
                 st.add(l + r);
                 break;
