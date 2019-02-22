@@ -25,6 +25,7 @@ public class Calculator extends JFrame
     private JButton equButton;
     private JButton leftBracketButton;
     private JButton rightBracketButton;
+    private JButton dotButton;
 
     public Calculator()
     {
@@ -135,10 +136,15 @@ public class Calculator extends JFrame
             }
         }
 
+        class ListenToDot implements ActionListener {
+            public void actionPerformed(ActionEvent e) {
+                outputText.setText(outputText.getText() + ".");
+            }
+        }
+
         class ListenToSolve implements ActionListener {
             public void actionPerformed(ActionEvent e) {
-                outputText.setText(Integer.toString(eval(outputText.getText())));
-//                outputText.setText(Double.toString(eval(outputText.getText())));
+                outputText.setText(Double.toString(eval(outputText.getText())));
             }
         }
         //Привязка лисанеров к кнопкам с цифрами/точкой/скобками/операциями
@@ -160,6 +166,7 @@ public class Calculator extends JFrame
         minusButton.addActionListener(new ListenToMinus());
         composeButton.addActionListener(new ListenToMulti());
         divideButton.addActionListener(new ListenToDivide());
+        dotButton.addActionListener(new ListenToDot());
         equButton.addActionListener(new ListenToSolve());
 
     }
@@ -182,9 +189,9 @@ public class Calculator extends JFrame
                 return -1;
         }
     }
-    static void processOperator(LinkedList<Integer> st, char op) {
-        int r = st.removeLast(); // выдёргивает из упорядоченного листа последний элемент
-        int l = st.removeLast(); // также
+    static void processOperator(LinkedList<Double> st, char op) {
+        double r = st.removeLast(); // выдёргивает из упорядоченного листа последний элемент
+        double l = st.removeLast(); // также
         switch (op) { // выполняет действие между l и r в зависимости от оператора в кейсе и результат кладет в st
             case '+':
                 st.add(l + r);
@@ -198,10 +205,11 @@ public class Calculator extends JFrame
             case '/':
                 st.add(l / r);
                 break;
+
         }
     }
-    public static int eval(String s) {
-        LinkedList<Integer> st = new LinkedList<Integer>(); // лист с цифрами
+    public static double eval(String s) {
+        LinkedList<Double> st = new LinkedList<Double>(); // лист с цифрами
         LinkedList<Character> op = new LinkedList<Character>(); // лист с операторами в порядке поступления
         for (int i = 0; i < s.length(); i++) { // парсится строка с текствью
             char c = s.charAt(i);
@@ -219,10 +227,10 @@ public class Calculator extends JFrame
                 op.add(c);
             } else {
                 String operand = "";
-                while (i < s.length() && Character.isDigit(s.charAt(i)))
+                while (i < s.length() && (Character.isDigit(s.charAt(i))||".".indexOf(s.charAt(i))!=-1))
                     operand += s.charAt(i++);
                 --i;
-                st.add(Integer.parseInt(operand));
+                st.add(Double.parseDouble(operand));
             }
         }
         while (!op.isEmpty())
