@@ -105,15 +105,6 @@ public class Calculator extends JFrame
             }
         }
 
-//        class ListenToUnairOperation implements ActionListener {
-//            public void actionPerformed(ActionEvent e) {
-//                equ = -Double.parseDouble(outputText.getText());
-//                outputText.setText(""+ equ);
-//                unair = true;
-//
-//            }
-//        }
-
         class ListenToClear implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 outputText.setText("");
