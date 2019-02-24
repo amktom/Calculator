@@ -175,7 +175,7 @@ public class Calculator extends JFrame
         return c == ' ';
     }
     static boolean isOperator(char c) { // функция возвращяет тру если один из символов ниже
-        return c == '+' || c == '-' || c == '*' || c == '/';
+        return c == '+' || c == '-' || c == '*' || c == '/' || c == '!';
     }
     static int priority(char op) { // функция возвращает приоритет операции
         switch (op) {
@@ -184,39 +184,51 @@ public class Calculator extends JFrame
                 return 1;
             case '*':
             case '/':
+            case '!':
                 return 2;
             default:
                 return -1;
         }
     }
     static void processOperator(LinkedList<Double> st, char op) {
-        double r = st.removeLast(); // выдёргивает из упорядоченного листа последний элемент
-        double l = st.removeLast(); // также
-        switch (op) { // выполняет действие между l и r в зависимости от оператора в кейсе и результат кладет в st
-            case '+':
-                st.add(l + r);
-                break;
-            case '-':
-                st.add(l - r);
-                break;
-            case '*':
-                st.add(l * r);
-                break;
-            case '/':
-                st.add(l / r);
-                break;
-
+        if(op == '!') {
+            double digit = st.removeLast();
+            st.add(digit * (-1));
+        } else {
+            double r = st.removeLast(); // выдёргивает из упорядоченного листа последний элемент
+            double l = st.removeLast();
+            switch (op) { // выполняет действие между l и r в зависимости от оператора в кейсе и результат кладет в st
+                case '+':
+                    st.add(l + r);
+                    break;
+                case '-':
+                    st.add(l - r);
+                    break;
+                case '*':
+                    st.add(l * r);
+                    break;
+                case '/':
+                    st.add(l / r);
+                    break;
+            }
         }
     }
     public static double eval(String s) {
+        String subStr = "";
         LinkedList<Double> st = new LinkedList<Double>(); // лист с цифрами
         LinkedList<Character> op = new LinkedList<Character>(); // лист с операторами в порядке поступления
         for (int i = 0; i < s.length(); i++) { // парсится строка с текствью
             char c = s.charAt(i);
             if (isDelim(c))
                 continue;
-            if (c == '(')
+            if (c == '(') {
                 op.add('(');
+                int j = i + 1;
+                if (s.charAt(j) == '-') {
+                    subStr = s.substring(0, j) + '!' + s.substring(j + 1);
+                    s = subStr;
+                }
+            }
             else if (c == ')') {
                 while (op.getLast() != '(')
                     processOperator(st,op.removeLast());
